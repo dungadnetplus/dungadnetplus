@@ -3,15 +3,15 @@
 
 > Written with [StackEdit](https://stackedit.io/).
 
-# Tập 2: Cấu hình trong Laravel (Laravel Configuration)
+## Tập 2: Cấu hình trong Laravel (Laravel Configuration)
 
 Chào mừng các bạn đã quay trở lại, trong tập này mình sẽ nói về cấu hình trong Laravel và hướng dẫn các bạn cách để thao tác với nó. Nào, bắt đầu thôi!
 
-# I. Cấu hình môi trường (Environment configuration)
+## I. Cấu hình môi trường (Environment configuration)
 
 Các thao tác về cấu hình môi trường ta thường xoay quay ở file  `.env`  và các file ở thư mục  `config`.
 
-## 1. Lấy cấu hình môi trường (Retrieving environment configuration)
+### 1. Lấy cấu hình môi trường (Retrieving environment configuration)
 
 Để lấy các thiết lập từ file  `.env`  chúng ta sử dụng hàm  `env()`.
 
@@ -27,7 +27,7 @@ Trong hàm  `env()`:
 -   Tham số đầu tiên chính là tên của cấu hình môi trường.
 -   Tham số thứ hai chính là giá trị mặc định (default value), hàm  `env()`  sẽ trả về giá trị này nếu không tồn tại cấu hình môi trường ở tham số đầu tiên. Trong trường hợp này, nếu file  `.env`  không có  `APP_DEBUG`  thì hàm  `env('APP_DEBUG', false)`  sẽ trả về  `(bool) false`.
 
-## 2. Xác định môi trường hiện tại (Determining current environment)
+### 2. Xác định môi trường hiện tại (Determining current environment)
 
 Chúng ta sẽ sử dụng phương thức  `environment`  từ  `App`  facade:
 
@@ -49,7 +49,7 @@ if (App::environment(['local', 'production']) {
 
 ```
 
-## 3. Ẩn biến môi trường từ trang debug (Hiding environment variables form debug page)
+### 3. Ẩn biến môi trường từ trang debug (Hiding environment variables form debug page)
 
 Giả sử tôi mắc phải một lỗi nào đó khi request, trong request đó có một trường  `password`  quan trọng. Đây là đoạn code để test ở file  `routes/web.php`:
 
@@ -97,7 +97,7 @@ Khi quay lại trang debug chúng ta thấy password đã được mã hóa.
 
 > **Lưu ý:**  Một vài biến có sẵn có cả trong biến môi trường và biến máy chủ/request, chính vì thế khi muốn blacklist biến nào thì phải thêm ở cả  `_ENV`  và  `_SERVER`. Chẳng hạn ở đoạn code trên, tôi đã blacklist hai biến  `APP_KEY`  và  `DB_PASSWORD`  ở  `_ENV`  và  `_SERVER`.
 
-# II. Truy cập giá trị cấu hình (Accessing Configuration Values)
+## II. Truy cập giá trị cấu hình (Accessing Configuration Values)
 
 Bạn có thể truy cập dễ dàng các giá trị của cấu hình thông qua hàm  `config()`.
 
@@ -123,7 +123,7 @@ Từ đó ta có thể rút ra được, để thao tác với bất kì cấu h
 
 > **Lưu ý:**  Bạn có thể tự tạo cho mình một file config, hoặc tự định nghĩa một config vào những file có sẵn, kể cả  `.env`  miễn bạn code theo đúng quy cách có sẵn.
 
-# III. Cache cấu hình (Configuration Caching)
+## III. Cache cấu hình (Configuration Caching)
 
 Laravel cung cấp một chức năng có thể cache những cấu hình đã thiết lập, tại commander bạn gõ lệnh
 
@@ -137,7 +137,7 @@ Nếu bạn muốn thay đổi, có thể dùng lệnh bên dưới để xóa c
 
 Mình sẽ dừng lại phần này ở đây, ta có thể tìm hiểu sâu hơn khi tới tập  _"Cache Laravel"_.
 
-# IV. Chế độ bảo trì (Maintenance mode)
+## IV. Chế độ bảo trì (Maintenance mode)
 
 Đôi khi hệ thống bạn cũng cần được bảo trì, để làm điều này chỉ cần chạy lệnh:
 
