@@ -3,7 +3,7 @@
 
 > Written with [StackEdit](https://stackedit.io/).
 
-# Tập 6: Service container Laravel
+## Tập 6: Service container Laravel
 
 Chào mừng các bạn đã quay trở lại với mình cùng series "[Hành trình chinh phục Laravel Framework](https://viblo.asia/s/hanh-trinh-chinh-phuc-laravel-framework-nB5pXJDG5PG)". Tập hôm nay mình sẽ nói về một trong những khái niệm kiến trúc (Architecture concepts) của Laravel đó chính là "Service container".
 
@@ -11,7 +11,7 @@ Achitecture concepts của Laravel là những khái niệm hoàn toàn mới, c
 
 > **Khuyến cáo:**  Đây là một trong những phần Laravel nâng cao, chính vì thế sẽ gây khó hiểu, mất nghị lực, quyết tâm khi học. Mình khuyên bạn hãy đọc một lần, nếu thấy không thể tiếp thu thì có thể bỏ qua.
 
-# I. Khái niệm service container (Service container conception)
+## I. Khái niệm service container (Service container conception)
 
 Trước tiên tìm hiểu về service container thì các bạn hãy hiểu hai thuật ngữ "dependency" và "dependency injection" trước đã. Mới đọc xong câu này chắc các bạn rất hụt hẫng khi chẳng biết nó là cái quái gì cả đúng không? Vì đây là các thuật ngữ trong lập trình nên dù có Google translate cũng vô cùng khó hiểu. "Dependency" nghĩa là "phụ thuộc", "dependency injection" nghĩa là "tiêm phụ thuộc", nghe xong lại càng mơ hồ. Chính điều đó, để giải thích hai thuật ngữ này mình sẽ làm example sau để các bạn có thể hình dung được nghĩa của nó.
 
@@ -130,17 +130,17 @@ Ta chỉ khởi tạo  `Money`  một lần duy nhất và lưu nó vào trong  
 
 Vậy service container trong Laravel chính là công cụ hữu ích để quản lý các class dependency và depedency injection.
 
-# II. Binding
+## II. Binding
 
 Đây là một thuật ngữ trong Laravel, "binding" được hiểu là dùng để đăng ký một class hay interface trong service container. Việc binding này thường được code ở các file service provider trong thư mục  `app/Provider`  tại method  `register`.
 
 > **Chú ý:**  Bắt đầu từ đây với mỗi code example, mình không sử dụng lại nội dung phía trước nên mỗi khi qua một ví dụ mới, bạn nên đưa các file đã thay đổi ở ví dụ trước đó về trạng thái ban đầu để tránh lỗi code. Chân thành cảm ơn!
 
-## 1. Khái niệm cơ bản binding (Bindings basic)
+### 1. Khái niệm cơ bản binding (Bindings basic)
 
 Trong một file service provider, bạn luôn có quyền truy cập đến container thông qua thuộc tính  `$this->app`.
 
-### a. Binding simple
+#### a. Binding simple
 
 Chúng ta có thể bind đơn giản bằng cách sử dụng method  `bind`, truyền tên class hoặc interface chúng ta mong muốn đăng ký cùng với một Closure trả về lớp được khởi tạo.
 
@@ -174,7 +174,7 @@ Bây giờ các bạn nạp server và chạy đường dẫn  [http://localhost
 
 Như vậy là ta đã bind thành công rồi đấy.
 
-### b. Binding a singleton
+#### b. Binding a singleton
 
 Giống như tên của nó, phương thức bind này khai báo với Laravel rằng khi khởi tạo class này thì chỉ một lần duy nhất, những yêu cầu khởi tạo kế tiếp trong cùng một request chỉ trả lại object đã tạo lần đầu.
 
@@ -211,7 +211,7 @@ Nạp server chạy lại và đây là kết quả:
 
 Dù gọi hai lần như nó vẫn trả về cùng một object, đó chính là  `singleton`.
 
-### c. Binding instances
+#### c. Binding instances
 
 Đây chẳng qua là một biến tấu của  `singleton`. Nó cũng sẽ trả về một object duy nhất dù có gọi bao nhiêu lần, nhưng object khởi tạo đầu tiên không phải ở trong Closure mà là ở ngoài, nằm ở trước bind  `instance`.
 
@@ -230,7 +230,7 @@ Bây giờ vẫn giữ nguyên đoạn code kiểm chứng và chạy lại:
 
 Nó vẫn trả về cùng một object giống như  `singleton`. Việc sử dụng  `instance`  sẽ giúp bạn linh hoạt hơn trong việc binding.
 
-### d. Binding primitives
+#### d. Binding primitives
 
 Có thể nói đây là cách mà ta có thể tự động inject các dependency vào trong class. Nhìn vào đoạn code dưới đây:
 
@@ -300,7 +300,7 @@ Bạn không cần hiểu quá chi tiết về đoạn code trên, vì chúng ta
 -   Khi class  `AvatarController`  được gọi thì nó sẽ được inject một dependency với giá trị là một object  `Storage::disk('local')`  tại type-hint là  `Filesystem`  để có thể thao tác lưu trữ tại server.
 -   Khi class  `PhotoController`  hoặc  `VideoController`  được gọi thì nó sẽ được inject một dependency với giá trị là một object  `Storage::disk('s3')`  tại type-hint là  `Filesystem`  để có thể thao tác lưu trữ tại Amazon S3.
 
-## 2. Binding interfaces to implementations.
+### 2. Binding interfaces to implementations.
 
 Đây là một công cụ mạnh mẽ trong service container. Bạn còn nhớ nội dung file  `bootstrap/app.php`  hôm trước chứ. Tại nhiệm vụ bind các interface quan trọng, các binding dưới đây là một ví dụ cụ thể cho cơ chế này:
 
@@ -349,7 +349,7 @@ class ErrorLogger
 
 ```
 
-## 3. Tagging
+### 3. Tagging
 
 Có thể từ này đã quá quen thuộc với rất nhiều bạn rồi. Nó là từ đại điện cho một nhóm có nội dung, đặc điểm hay tính chất chung. Chẳng hạn  `ErrorReport`,  `MemoryReport`,  `ActiveReport`  đều có thẻ chung là  `Report`.
 
@@ -388,7 +388,7 @@ $this->app->bind('ReportAggregator', function ($app) {
 
 Để lấy các dependency từ tagging, chúng ta sử dụng method  `tagged`  với tham số duy nhất là tên của thẻ.
 
-## 4. Extending binding
+### 4. Extending binding
 
 Đây là một cơ chế cho phép thay đổi một service đã được khởi tạo. Method  `extend`  có thể nhận Closure làm tham số cho việc thêm code.
 
@@ -498,11 +498,11 @@ app()->bind('MyUser', function() {
 
 ```
 
-# III. Resolving
+## III. Resolving
 
 Phương thức này dùng để khởi tạo các class đã được bind hoặc lấy các object đã được khởi tạo từ binding a singleton hoặc binding intances.
 
-## 1. Một số cách resovle (Some resolve ways)
+### 1. Một số cách resovle (Some resolve ways)
 
 Bạn có thể sử dụng method  `make`  để resolve một class trong container:
 
@@ -551,7 +551,7 @@ public function __construct($id)
 
 ```
 
-## 2. Automatic injection
+### 2. Automatic injection
 
 Đây mà một cơ chế hữu ích và quan trọng trong quá trình code, vì hầu như bạn luôn gặp nó khi code ở bất cứ phần nào, bao gồm controller, middleware, event listener...
 
@@ -582,7 +582,7 @@ Như vậy khi route thực thi controller thì container sẽ tự động inje
 
 Ta có thể áp dụng cơ chế này cho cả method  `handle`  của queued jobs (sẽ tìm hiểu ở các tập sau).
 
-# IV. Container events
+## IV. Container events
 
 Service container sẽ kích hoạt một sự kiễn mỗi khi ta resovle một object. Để có thể bắt sự kiện đó, ta chỉ cần sử dụng method  `resolving`:
 
