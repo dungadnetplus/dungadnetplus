@@ -3,13 +3,13 @@
 
 > Written with [StackEdit](https://stackedit.io/).
 
-# Tập 5: Vòng đời request Laravel (Request lifecycle Laravel)
+## Tập 5: Vòng đời request Laravel (Request lifecycle Laravel)
 
 Rất vui lại gặp được các bạn trong tập ngày hôm nay. Tập này chúng ta sẽ tìm hiểu về quá trình của một request được gửi đến Laravel framework. Nếu như bạn hiểu cách thức hoạt động của một công cụ nào đó thì bạn có thể sử dụng nó một cách tự tin và hiệu quả nhất, Laravel framework cũng vậy. Chính vì thế tập này khá quan trọng cho những bạn "chân ướt chân ráo" mới tìm hiểu về framework này.
 
 > **Khuyến cáo:**  Đây là một trong những phần Laravel nâng cao, chính vì thế sẽ gây khó hiểu, mất nghị lực, quyết tâm khi học. Mình khuyên bạn hãy đọc một lần, nếu thấy không thể tiếp thu thì có thể bỏ qua.
 
-# I. Mô hình vòng đời request Laravel (Request Lifecycle model Laravel)
+## I. Mô hình vòng đời request Laravel (Request Lifecycle model Laravel)
 
 Các bạn hãy quan sát mô hình vòng đời của một request khi được gửi đến trong Laravel framework:
 
@@ -17,13 +17,13 @@ Các bạn hãy quan sát mô hình vòng đời của một request khi đượ
 
 Bây giờ mình sẽ giải thích từng chốt chặn trong mô hình trên nhé!
 
-# II. Khởi động (Bootstrap)
+## II. Khởi động (Bootstrap)
 
 Đầu tiên từ phía client sẽ gửi một request (mũi tên màu xanh) đến file  `public/index.php`, nó là đích đến của tất cả các request từ client. Dù code không nhiều nhưng nó là khởi nguyên cho framework.
 
 Mở file  `public/index.php`  lên và xem code của nó, các bạn sẽ thấy nó làm 3 nhiệm vụ chính để bootstrap framework.
 
-## 1. Đăng ký cơ chế autoload (Register the auto loader)
+### 1. Đăng ký cơ chế autoload (Register the auto loader)
 
 ```PHP
 /*
@@ -99,7 +99,7 @@ new User();
 
 Đây chỉ là một example đơn giản cho cơ chế autoload, nếu chưa hiểu rõ các bạn có thể tìm hiểu thêm trên mạng.
 
-# 2. Chuẩn bị để khởi động ứng dụng (Prepare to bootstrap the application)
+## 2. Chuẩn bị để khởi động ứng dụng (Prepare to bootstrap the application)
 
 ```PHP
 /*
@@ -197,7 +197,7 @@ return $app;
 
 Tới đây quá trình chuẩn bị đã hoàn tất cho việc bootstrap framework.
 
-## 3. Chạy ứng dụng (Run the application)
+### 3. Chạy ứng dụng (Run the application)
 
 ```PHP
 /*
@@ -229,7 +229,7 @@ $kernel->terminate($request, $response);
 -   Xử lý request
 -   Trả về response
 
-# III. HTTP/Console Kernel
+## III. HTTP/Console Kernel
 
 Tiếp theo, request sẽ được gửi đến HTTP Kernel hoặc Console Kernel, tùy thuộc vào request được gửi từ đâu. Hiện tại chúng ta chỉ quan tâm đến HTTP Kernel nằm ở file  `app/Http/Kernel.php`.
 
@@ -241,7 +241,7 @@ HTTP Kernel như một chiếc "hộp đen" của ứng dụng, hoạt động t
 
 Bắt đầu từ những chốt chặn sau đều nằm trong chiếc "hộp đen" HTTP Kernel này.
 
-# IV. Service providers
+## IV. Service providers
 
 Một trong những công việc quan trọng nhất của HTTP Kernel đó chính là load các service provider. Tất cả các service provider được cấu hình trong file  `config/app.php`. Quá trình load các service provider sẽ trải qua hai quá trình:
 
@@ -250,7 +250,7 @@ Một trong những công việc quan trọng nhất của HTTP Kernel đó chí
 
 Các service provider khởi động nhiều thành phần khác nhau của framework như database, validation, router... Chính vì thế mà nó đóng vai trò thiết yếu trong quá trình chạy ứng dụng Laravel.
 
-# V. Router
+## V. Router
 
 Sau khi hoàn tất load service provider, các request sẽ được gửi đến router. Chốt chặn này rất dễ hiểu, việc này giống như bạn tìm nhà cho một đứa trẻ đi lạc vậy. Công việc của router sẽ kiểm tra tất cả các route đã được khai báo trong các file ở thư mục  `routes`  so với request được gửi đến. Nếu khớp hoàn toàn với một route nào đó thì sẽ có hai hướng xử lý. Hãy quan sát mô hình ở phía trên, tại chốt chặn route có hai hướng rẽ:
 
@@ -259,13 +259,13 @@ Sau khi hoàn tất load service provider, các request sẽ được gửi đ�
 
 Tại sao lại có hai hướng xử lý như vậy? Khi khai báo route, Laravel cho phép ta có thể ràng buộc request đi qua bằng các middleware tự tạo. Chính vì vậy mà tùy vào mỗi route có ràng buộc middleware hay không nên mình chia hai hướng xử lý như vậy để bao quát.
 
-# VI. Middleware
+## VI. Middleware
 
 Như đã nói ở trên, để ứng dụng có thể xử lý được request mà route đã đăng ký middleware thì không còn cách nào khác phải vượt qua nó. Tại đây, middleware sẽ xử lý logic theo những ràng buộc mà coder đặt ra để quyết định xem request đó có được đi tiếp hay là không.
 
 Chẳng hạn như có một request với đường dẫn là  [http://localhost:8000/login](http://localhost:8000/login), một coder muốn ràng buộc rằng nếu tồn tại session/cookie đăng nhập của client thì khi vào request này sẽ chuyển về trang chủ, còn nếu không thì vẫn hiển thị form đăng nhập để client tiếp tục. Đây là lúc sử dụng middleware để ràng buộc.
 
-# VII. Phương thức xử lý (Handle method)
+## VII. Phương thức xử lý (Handle method)
 
 Có hai phương thức xử lý request đó chính là controller hoặc action (Closure object). Nhìn chung thì hai phương thức này đều hoạt động như nhau nhưng cách thể hiện và hiệu năng lại khác nhau.
 
@@ -275,7 +275,7 @@ Về action thường dành cho những phương thức xử lý ngắn gọn nh
 
 Tóm lại, cả hai phương thức này sau cùng cũng sẽ trả về response sau khi xử lý xong request, theo cơ chế "hộp đen" của HTTP Kernel. Qua những tập sau mình sẽ nói rõ hơn về controller và action.
 
-# VIII. Phương thức trả về (Return method)
+## VIII. Phương thức trả về (Return method)
 
 Quan sát trên mô hình, ta thấy có hai mũi tên màu đỏ trả về phía client, đó chính là response. Nhưng sao lại có hai hướng như vậy, đó là do chúng ta có hai cách thức để trả về response:
 
